@@ -36,7 +36,7 @@ class SomeTestCase(unittest.TestCase):
         self.test_method("hello", "world")
 ```
 
-The only difference is that the test `test_method` won't actually be executed.
+The only difference is that when wrapped with `@datadriven`, the test `test_method` won't be really executed.
 
 ## License
 
