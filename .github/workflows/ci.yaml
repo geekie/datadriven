@@ -22,11 +22,11 @@ jobs:
       - run: nox -s lint
 
   test:
-    name: Python ${{ matrix.python-version }}
+    name: Tests - ${{ matrix.python-version }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["2.7", "3.7", "3.8", "3.9", "3.10"]
+        python-version: ["3.7", "3.8", "3.9", "3.10"]
 
     steps:
       - uses: actions/checkout@v2
@@ -37,4 +37,26 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install nox
-      - run: nox -s test -p "${{ matrix.python-version }}"
+      - name: Run tests
+        run: nox -s test -p "${{ matrix.python-version }}"
+
+  test-py2:
+    name: Tests - 2.7
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: "2.7"
+      - name: Install runners
+        run: |
+          python -m pip install --upgrade pip
+          pip install nose nose2 unittest2 pytest
+      - name: Run tests
+        run: |
+          nosetests
+          nose2
+          python -m unittest
+          unit2
+          pytest
